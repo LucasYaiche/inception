@@ -19,7 +19,7 @@ RUN 	openssl req -x509 -nodes \
         -keyout /etc/nginx/ssl/lyaiche.42.fr.key \
         -subj "/C=FR/ST=IDF/L=Bruxelles/O=42/OU=42/CN=lyaiche.42.fr/UID=lyaiche"
 
-COPY	config/nginx.conf /etc/nginx/http.d/default.conf
+COPY	c/nginx.conf /etc/nginx/http.d/default.conf
 
 #Listens on port 443
 EXPOSE	443

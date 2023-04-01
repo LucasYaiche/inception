@@ -11,7 +11,7 @@ fi
 
 #Checks if the file exists
 if [ ! -f "wp-config.php" ]; then
-	cp /config/wp-config ./wp-config.php
+	cp /conf/wp-config ./wp-config.php
 	
 	sleep 5 
 

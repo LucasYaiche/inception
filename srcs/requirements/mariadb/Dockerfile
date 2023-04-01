@@ -10,9 +10,9 @@ RUN		apk add --no-cache --quiet --update mariadb mariadb-client vim
 #Creates directories for storing MariaDB data and runtime files
 RUN 	mkdir -p /var/lib/mysqld /run/mysqld
 
-COPY	./config/create_db.sql /tmp/create_db.sql
+COPY	./conf/create_db.sql /tmp/create_db.sql
 COPY	./tools/entrypoint.sh ./
-COPY 	./config/mariadb-server.cnf /etc/my.cnf.d/
+COPY 	./conf/mariadb-server.cnf /etc/my.cnf.d/
 
 #Installs the MariaDB system tables and creates the initial database.
 RUN		mariadb-install-db --datadir=/var/lib/mysql --auth-root-authentication-method=normal
