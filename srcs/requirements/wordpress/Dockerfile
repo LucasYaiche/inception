@@ -30,7 +30,7 @@ RUN		wp core download --path=/var/www/wordpress
 #Sets the working directory
 WORKDIR /var/www/wordpress
 
-COPY	script/wp-config /conf/wp-config
+COPY	script/wp-config.php /conf/wp-config
 COPY	./scripts/entrypoint.sh /tmp/entrypoint.sh
 
 #Makes the entrypoint script executable
