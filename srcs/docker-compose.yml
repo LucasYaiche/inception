@@ -77,13 +77,13 @@ volumes: #reuse a volume across multiple services
   mariadb-volume:
     driver: local #Default, if several storage exist
     driver_opts:
-      device: /home/tim/data/database #Where to store
+      device: /home/lyaiche/data/database #Where to store
       type: volume #type can be bind, bind is in the container if dele container data is delete to
       o: bind #bind conaintner with volume
   wordpress-volume:
     driver: local
     driver_opts:
-      device: /home/tim/data/wordpress
+      device: /home/lyaiche/data/wordpress
       type: volume
       o: bind
 
