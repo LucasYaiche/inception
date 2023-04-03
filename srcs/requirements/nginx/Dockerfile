@@ -17,7 +17,7 @@ RUN		mkdir -p /etc/nginx/ssl /var/run/nginx
 RUN 	openssl req -x509 -nodes \
         -out /etc/nginx/ssl/lyaiche.42.fr.crt \
         -keyout /etc/nginx/ssl/lyaiche.42.fr.key \
-        -subj "/C=FR/ST=IDF/L=Bruxelles/O=42/OU=42/CN=lyaiche.42.fr/UID=lyaiche"
+        -subj "/C=BE/ST=Belgium/L=Brussels/O=42/OU=42/CN=lyaiche.42.fr/UID=lyaiche"
 
 COPY	conf/nginx.conf /etc/nginx/http.d/default.conf
 

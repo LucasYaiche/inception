@@ -1,4 +1,4 @@
-#The "galera" line specifies the configuration group to use for the MariaDB Galera cluster
+# The "galera" line specifies the configuration group to use for the MariaDB Galera cluster
 [galera]
 bind-address=0.0.0.0
 port=3306

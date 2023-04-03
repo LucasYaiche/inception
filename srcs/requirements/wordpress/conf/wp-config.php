@@ -44,3 +44,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 #Includes configuration file
 require_once ABSPATH . 'wp-settings.php';
+
+# REMPLACER PAR LE FICHIER PAR DEFAUT DE "INSTALLER WORDPRESS"
