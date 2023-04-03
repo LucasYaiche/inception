@@ -1,8 +1,26 @@
+-- CREATE DATABASE $MARIADB_DB;
+-- CREATE USER '$MARIADB_USER'@'%' IDENTIFIED by '$MARIADB_PWD';
+-- GRANT ALL PRIVILEGES ON $MARIADB_DB.* TO $MARIADB_USER@'%';
+
+-- /* Clears the priviliege cache on the MariaDB database for the changes to take effect*/
+-- FLUSH PRIVILEGES
+
+-- SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MARIADB_ROOT_PWD');
+
+/** Clean everything to avoid default values **/
+DELETE FROM	mysql.user WHERE User='';
+DELETE FROM mysql.db WHERE Db='test';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+
+/** We installed the database with the normal authetification method in the Dockerfile,
+so we need to set the password **/
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MARIADB_ROOT_PWD');
+
+/** Create first user, second one will be created via wordpress container */
 CREATE DATABASE $MARIADB_DB;
 CREATE USER '$MARIADB_USER'@'%' IDENTIFIED by '$MARIADB_PWD';
 GRANT ALL PRIVILEGES ON $MARIADB_DB.* TO $MARIADB_USER@'%';
 
-/* Clears the priviliege cache on the MariaDB database for the changes to take effect*/
-FLUSH PRIVILEGES
-
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MARIADB_ROOT_PWD');
+/** We need to flush for the grant to be active sort of reboot*/
+/** To tell the server to reload the grant tables */
+FLUSH PRIVILEGES;
