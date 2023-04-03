@@ -44,7 +44,7 @@ RUN 	mkdir -p /var/lib/mysqld /run/mysqld
 COPY	./conf/create_db.sql /tmp/create_db.sql
 
 # Copy entrypoint script and add execution rights
-COPY	./scripts/entrypoint.sh ./
+COPY	./script/entrypoint.sh ./
 RUN 	chmod +x ./entrypoint.sh
 
 # Copy mariadb conf file
