@@ -1,3 +1,5 @@
+target="/etc/php7/php-fpm.d/www.conf"
+
 #Checks if the IP address is correctly configured
 grep -E "listen = 127.0.0.1" $target > /dev/null 2>&1
 if [ $? -eq 0 ]; then

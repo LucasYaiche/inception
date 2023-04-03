@@ -1,27 +1,34 @@
 <?php
+/* wp-config.php is one of the core WordPress files. 
+It contains information about the database, including the name, host (typically localhost), username, and password. 
+This information allows WordPress to communicate with the database to store and retrieve data (e.g. Posts, Users, Settings, etc). 
+The file is also used to define advanced options for WordPress.*/
 
-#Enables the use of a caching plugin
+# Wordpress configuration file
 define('WP_CACHE', true);
 
-#Defines the name for the database WordPress
+/** The name of the database for WordPress */
 define( 'DB_NAME', getenv('MARIADB_DB') );
 
-#Defines the name for the user
+/** MySQL database username */
 define( 'DB_USER', getenv('MARIADB_USER') );
 
-#Sets password
+/** MySQL database password */
 define( 'DB_PASSWORD', getenv('MARIADB_PWD') );
 
-#Defines host
+/** MySQL hostname */
 define( 'DB_HOST', getenv('MARIADB_HOST'));
 
-#Specifies the character set that Wordpress should use.
+/** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
 
-#Specifies the collation of the database tables
+/** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
-#Sets all keys
+/* Salt, key, securite */
+/* Authentication Unique Keys and Salts 
+Change these to different unique phrases!
+You can generate these using the https://api.wordpress.org/secret-key/1.1/salt/ generator */
 define('AUTH_KEY',         getenv('AUTH_KEY'));
 define('SECURE_AUTH_KEY',  getenv('SECURE_AUTH_KEY'));
 define('LOGGED_IN_KEY',    getenv('LOGGED_IN_KEY'));
@@ -31,18 +38,18 @@ define('SECURE_AUTH_SALT', getenv('SECURE_AUTH_SALT'));
 define('LOGGED_IN_SALT',   getenv('LOGGED_IN_SALT'));
 define('NONCE_SALT',       getenv('NONCE_SALT'));
 
-
+# Prefix for the database tables
 $table_prefix = 'wp_';
 
-#Disables debugging mode in WordPress
+# Allows debug functions
 define( 'WP_DEBUG', false);
 
-#Defines the absolute path of the WordPress installation directory
+/** Absolute path to the WordPress directory. */
+# Allows display of index.php
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+        define( 'ABSPATH', __DIR__ . '/' );
 }
 
-#Includes configuration file
+/** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
 
-# REMPLACER PAR LE FICHIER PAR DEFAUT DE "INSTALLER WORDPRESS"
