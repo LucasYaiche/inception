@@ -1,72 +1,133 @@
-version: '3'
+# version: '3'
 
-volumes:
+# volumes:
+#   mariadb-volume:
+#     driver: local
+#     driver_opts:
+#       device: /home/lyaiche/data/database
+#       type: volume
+#       o: bind
+#   wordpress-volume:
+#     driver: local
+#     driver_opts:
+#       device: /home/lyaiche/data/wordpress
+#       type: volume
+#       o: bind
+
+# networks:
+#   private:
+
+# services:
+#   nginx:
+#     container_name: nginx
+#     depends_on:
+#       - wordpress
+#     build: requirements/nginx
+#     volumes:
+#       - wordpress-volume:/var/www/wordpress
+#     networks:
+#       - private
+#     ports:
+#       - "443:443"
+#     restart: unless-stopped
+
+#   mariadb:
+#     container_name: mariadb
+#     build:
+#       context: ./requirements/mariadb
+#     volumes:
+#       - mariadb-volume:/var/lib/mysql
+#     networks:
+#       - private
+#     environment:
+#       - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
+#       - MARIADB_DB=${MARIADB_DB}
+#       - MARIADB_USER=${MARIADB_USER}
+#       - MARIADB_PWD=${MARIADB_PWD}
+#     restart: unless-stopped
+
+#   wordpress:
+#     container_name: wordpress
+#     depends_on:
+#       - mariadb
+#     build: requirements/wordpress
+#     volumes:
+#       - wordpress-volume:/var/www/wordpress
+#     networks:
+#       - private
+#     environment: 
+#       - WP_URL=${WP_URL}
+#       - WP_DATABASE=${WP_DATABASE}
+#       - WP_TITLE=${WP_TITLE}
+#       - WP_ADMIN_USER=${WP_ADMIN_USER}
+#       - WP_ADMIN_PWD=${WP_ADMIN_PWD}
+#       - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+#       - WP_USER=${WP_USER}
+#       - WP_USER_PWD=${WP_USER_PWD}
+#       - WP_USER_EMAIL=${WP_USER_EMAIL}
+#       - MARIADB_HOST=${MARIADB_HOST}
+#       - MARIADB_USER=${MARIADB_USER}
+#       - MARIADB_PWD=${MARIADB_PWD}
+#       - MARIADB_DB=${MARIADB_DB}
+#     restart: unless-stopped
+
+version: '3.3'
+
+volumes: #reuse a volume across multiple services
   mariadb-volume:
-    driver: local
+    driver: local #Default, if several storage exist
     driver_opts:
-      device: /home/lyaiche/data/database
-      type: volume
-      o: bind
+      device: /home/tim/data/database #Where to store
+      type: volume #type can be bind, bind is in the container if dele container data is delete to
+      o: bind #bind conaintner with volume
   wordpress-volume:
     driver: local
     driver_opts:
-      device: /home/lyaiche/data/wordpress
+      device: /home/tim/data/wordpress
       type: volume
       o: bind
 
 networks:
-  private:
+  inception-network:
 
 services:
   nginx:
     container_name: nginx
-    depends_on:
-      - wordpress
-    build: requirements/nginx
+    build:
+      context: ./requirements/nginx #Launch dockerfile in that repo
+    image: img_nginx #Name of the build
     volumes:
-      - wordpress-volume:/var/www/wordpress
+      - wordpress-volume:/var/www/wordpress  # Named volume
     networks:
-      - private
+      - inception-network
     ports:
-      - "443:443"
-    restart: unless-stopped
+      - "443:443" #host:container
+    restart: on-failure
 
   mariadb:
     container_name: mariadb
     build:
       context: ./requirements/mariadb
+    image: img_mariadb
     volumes:
       - mariadb-volume:/var/lib/mysql
     networks:
-      - private
-    environment:
-      - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
-      - MARIADB_DB=${MARIADB_DB}
-      - MARIADB_USER=${MARIADB_USER}
-      - MARIADB_PWD=${MARIADB_PWD}
-    restart: unless-stopped
+      - inception-network
+    env_file: 
+      - .env #Environment variables in .env file override these values
+    restart: on-failure
 
   wordpress:
     container_name: wordpress
-    depends_on:
+    depends_on: #first launch mariadb before wordpress
       - mariadb
-    build: requirements/wordpress
+    build:
+      context: ./requirements/wordpress
+    image: img_wordpress
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
-      - private
-    environment: 
-      - WP_URL=${WP_URL}
-      - WP_DATABASE=${WP_DATABASE}
-      - WP_TITLE=${WP_TITLE}
-      - WP_ADMIN_USER=${WP_ADMIN_USER}
-      - WP_ADMIN_PWD=${WP_ADMIN_PWD}
-      - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
-      - WP_USER=${WP_USER}
-      - WP_USER_PWD=${WP_USER_PWD}
-      - WP_USER_EMAIL=${WP_USER_EMAIL}
-      - MARIADB_HOST=${MARIADB_HOST}
-      - MARIADB_USER=${MARIADB_USER}
-      - MARIADB_PWD=${MARIADB_PWD}
-      - MARIADB_DB=${MARIADB_DB}
-    restart: unless-stopped
+      - inception-network
+    env_file:
+      - .env
+    restart: on-failure
